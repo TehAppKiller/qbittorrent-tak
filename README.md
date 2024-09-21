@@ -2,7 +2,7 @@
 
 ## Snap Description
 
-UnOfficial release of qBittorrent
+UnOfficial release of qBittorrent\
 https://snapcraft.io/qbittorrent-tak
 
 ## qBittorrent Description
