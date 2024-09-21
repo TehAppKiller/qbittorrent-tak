@@ -1,0 +1,102 @@
+name: qbittorrent-tak
+summary: UnOfficial release of qBittorrent
+description: |
+  qBittorrent is a free and open-source BitTorrent client based on the Qt toolkit and libtorrent-rasterbar library.
+
+  The web interface is accessible by default at http://localhost:8080
+
+  See https://www.qbittorrent.org for more details.
+
+  qBittorrent Release 4+
+  Service is restarted on any condition.
+
+  Post install commands required to access media folders and see default password :
+  sudo snap connect qbittorrent-tak:removable-media
+  sudo snap logs qbittorrent-tak
+website: https://www.qbittorrent.org
+source-code: https://github.com/TehAppKiller/qbittorrent-tak
+issues: https://github.com/TehAppKiller/qbittorrent-tak/issues
+license: MIT
+icon: icon.svg
+grade: stable
+confinement: strict
+base: core24
+adopt-info: qbittorrent
+
+apps:
+  qbittorrent:
+    command: bin/run-qbittorrent.sh
+    daemon: simple
+    restart-condition: always
+    plugs:
+      - network
+      - network-bind
+      - removable-media
+    environment:
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy
+      QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins
+      XDG_DATA_DIRS: $SNAP/usr/share
+
+parts:
+  qbittorrent:
+    override-pull: |
+      craftctl default
+      craftctl set version='4.6.1'
+    source: 'https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-4.6.7.tar.gz'
+    source-type: tar
+    plugin: cmake
+    cmake-generator: Ninja
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DGUI=OFF
+      - -DQT6=ON
+    build-packages:
+      - build-essential
+      - pkg-config
+      - automake
+      - libtool
+      - zlib1g-dev
+      - libssl-dev
+      - libgeoip-dev
+      - libboost-dev
+      - libboost-system-dev
+      - libboost-chrono-dev
+      - libboost-random-dev
+      - libtorrent-rasterbar-dev
+      - qt6-base-dev
+      - qt6-base-private-dev
+      - qt6-tools-dev
+    override-prime: |
+      craftctl default
+      export XDG_DATA_DIRS=usr/share
+      update-mime-database usr/share/mime
+    prime:
+      - usr/bin/qbittorrent-nox
+
+  local:
+    plugin: dump
+    source: snap/local
+
+  deps:
+    plugin: dump
+    source: .
+    stage-packages:
+      - shared-mime-info
+      - libqt6core6t64
+      - libqt6network6t64
+      - libqt6sql6t64
+      - libqt6xml6t64
+      - libb2-1
+      - libcurl3t64-gnutls
+      - libdouble-conversion3
+      - libgomp1
+      - libldap2
+      - libnghttp2-14
+      - libpcre2-16-0
+      - libproxy1v5
+      - libpsl5t64
+      - librtmp1
+      - libsasl2-2
+      - libssh-4
+      - libtorrent-rasterbar2.0t64
