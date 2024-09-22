@@ -45,9 +45,9 @@ parts:
 
       # Get Last Source Tag version and Check Snap (with same Source) version
       src_version=$(git ls-remote --tags https://github.com/qbittorrent/qBittorrent.git | grep 'release\-[0-9]*\.[0-9]*\.[0-9]*\^' | tail -n 1 | sed 's/.*\/release-//; s/\^{}//');
-      echo "qBittorrent source last tag: ${src_version}"
+      echo "Source last tag: ${src_version}"
       snap_last_version=$(curl -sL --unix-socket /run/snapd.socket http://localhost/v2/find\?q\=qbittorrent-tak | sed -nre "s/^.*\"version\"\:\"([^\"]*)\".*/\1/p");
-      echo "snap last version: ${snap_last_version}"
+      echo "Snap last version: ${snap_last_version}"
       snap_build_with_same_version=$(echo $snap_last_version | sed -nre "s/^($src_version.*).*/\1/p");
       # Same version ?
       if [ -z "$snap_build_with_same_version" ]
