@@ -1,17 +1,18 @@
 name: qbittorrent-tak
 summary: UnOfficial release of qBittorrent
 description: |
-  qBittorrent is a free and open-source BitTorrent client based on the Qt toolkit and libtorrent-rasterbar library.
+  **qBittorrent is a free and open-source BitTorrent client** based on the Qt toolkit and libtorrent-rasterbar library.
 
-  The web interface is accessible by default at http://localhost:8080
+  * The web interface is accessible by default at http://localhost:8080
+  * See https://www.qbittorrent.org for more details.
 
-  See https://www.qbittorrent.org for more details.
+  **qBittorrent Release 4+**
+  * Service is restarted on any condition.
 
-  qBittorrent Release 4+
-  Service is restarted on any condition.
+  **Post install commands required to access media folders and see default password :**
 
-  Post install commands required to access media folders and see default password :
   sudo snap connect qbittorrent-tak:removable-media
+
   sudo snap logs qbittorrent-tak
 website: https://www.qbittorrent.org
 source-code: https://github.com/TehAppKiller/qbittorrent-tak
@@ -41,9 +42,46 @@ parts:
   qbittorrent:
     override-pull: |
       craftctl default
-      craftctl set version='4.6.1'
-    source: 'https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-4.6.7.tar.gz'
-    source-type: tar
+
+      # Get Last Source Tag version and Check Snap (with same Source) version
+      src_version=$(git ls-remote --tags https://github.com/qbittorrent/qBittorrent.git | grep 'release\-[0-9]*\.[0-9]*\.[0-9]*\^' | tail -n 1 | sed 's/.*\/release-//; s/\^{}//');
+      echo "qBittorrent source last tag: ${src_version}"
+      snap_last_version=$(curl -sL --unix-socket /run/snapd.socket http://localhost/v2/find\?q\=qbittorrent-tak | sed -nre "s/^.*\"version\"\:\"([^\"]*)\".*/\1/p");
+      echo "snap last version: ${snap_last_version}"
+      snap_build_with_same_version=$(echo $snap_last_version | sed -nre "s/^($src_version.*).*/\1/p");
+      # Same version ?
+      if [ -z "$snap_build_with_same_version" ]
+      then
+        new_snap_version="${src_version}";
+      else
+        # Get snap build version
+        snap_build=$(echo $snap_build_with_same_version | sed -nre 's/^.*-v([0-9]*).*/\1/p');
+        # Already a build version ?
+        if [ -z "$snap_build" ]
+        then
+          # init @v2
+          new_snap_build="2";
+        else
+          # increment @v+1
+          new_snap_build=$(($snap_build+1));
+        fi
+
+        new_snap_version="${src_version}-v${new_snap_build}";
+      fi
+
+      craftctl set version=$new_snap_version
+
+      # Pull
+      cd $CRAFT_PART_SRC
+      rm -r *
+      wget "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-${src_version}.tar.gz"
+      tar xvf "release-${src_version}.tar.gz"
+      cd "qBittorrent-release-${src_version}"
+      mv * $CRAFT_PART_SRC
+      cd ..
+      rm "release-${src_version}.tar.gz"
+      rm -r "qBittorrent-release-${src_version}"
+    source: .
     plugin: cmake
     cmake-generator: Ninja
     cmake-parameters:
@@ -52,6 +90,8 @@ parts:
       - -DGUI=OFF
       - -DQT6=ON
     build-packages:
+      - git
+      - wget
       - build-essential
       - pkg-config
       - automake
@@ -67,6 +107,10 @@ parts:
       - qt6-base-dev
       - qt6-base-private-dev
       - qt6-tools-dev
+    override-build: |
+      ls
+      ls $CRAFT_PART_SRC
+      craftctl default
     override-prime: |
       craftctl default
       export XDG_DATA_DIRS=usr/share
@@ -79,7 +123,7 @@ parts:
     source: snap/local
 
   deps:
-    plugin: dump
+    plugin: nil
     source: .
     stage-packages:
       - shared-mime-info
