@@ -90,6 +90,7 @@ parts:
       - -DGUI=OFF
       - -DQT6=ON
     build-packages:
+      - curl
       - git
       - wget
       - build-essential
