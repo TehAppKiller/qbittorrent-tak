@@ -116,6 +116,7 @@ parts:
       craftctl default
       export XDG_DATA_DIRS=usr/share
       update-mime-database usr/share/mime
+      chmod +rx $CRAFT_PRIME/bin/run-qbittorrent.sh
     prime:
       - usr/bin/qbittorrent-nox
 
