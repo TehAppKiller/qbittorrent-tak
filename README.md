@@ -25,6 +25,13 @@ sudo snap logs qbittorrent-tak
 
 ## FAQ
 See my common doc about [FAQ](https://github.com/TehAppKiller/Snapcraft-common-doc/tree/main#FAQ).
+### How to access Configuration file
+You need to access the snap in shell mode and edit the file with Vim:
+```
+sudo snap run --shell qbittorrent-tak.qbittorrent
+vi $SNAP_USER_DATA/.config/qBittorrent/qBittorrent.conf
+```
+One help sheet of Vim commands available [here](https://devhints.io/vim).
 
 ## Building
 The snap works on Core24.\
