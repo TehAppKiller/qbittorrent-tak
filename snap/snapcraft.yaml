@@ -54,6 +54,9 @@ parts:
     build-packages:
       - curl
       - git
+      - libboost-dev
+      - libboost-system-dev
+      - libboost-tools-dev
     override-pull: |
       craftctl default
 
