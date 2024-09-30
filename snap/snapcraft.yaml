@@ -23,6 +23,13 @@ grade: stable
 confinement: strict
 base: core24
 adopt-info: qbittorrent
+platforms:
+  amd64:
+  arm64:
+  armhf:
+  ppc64el:
+  s390x:
+  riscv64:
 
 apps:
   qbittorrent:
@@ -44,9 +51,9 @@ parts:
       craftctl default
 
       # Get Last Source Tag version and Check Snap (with same Source) version
-      src_version=$(git ls-remote --tags https://github.com/qbittorrent/qBittorrent.git | grep 'release\-[0-9]*\.[0-9]*\.[0-9]*\^' | tail -n 1 | sed 's/.*\/release-//; s/\^{}//');
+      src_version=$(git ls-remote --tags --sort='version:refname' https://github.com/qbittorrent/qBittorrent.git | grep 'release\-[0-9]*\.[0-9]*\.[0-9]*$' | tail -n 1 | sed 's/.*\/release-//');
       echo "Source last tag: ${src_version}"
-      snap_last_version=$(curl -sL --unix-socket /run/snapd.socket http://localhost/v2/find\?q\=qbittorrent-tak | sed -nre "s/^.*\"version\"\:\"([^\"]*)\".*/\1/p");
+      snap_last_version=$(curl -sL -H "Snap-Device-Series: 16" "https://api.snapcraft.io/v2/snaps/info/qbittorrent-tak?architecture=${CRAFT_ARCH_BUILD_FOR}&fields=version" | sed -nre "s/^.*\"stable\"\,\"track\"\:\"latest\"\}\,\"version\"\:\"([^\"]*)\".*/\1/p");
       echo "Snap last version: ${snap_last_version}"
       snap_build_with_same_version=$(echo $snap_last_version | sed -nre "s/^($src_version.*).*/\1/p");
       # Same version ?
@@ -72,15 +79,8 @@ parts:
       craftctl set version=$new_snap_version
 
       # Pull
-      cd $CRAFT_PART_SRC
-      rm -r *
-      wget "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-${src_version}.tar.gz"
-      tar xvf "release-${src_version}.tar.gz"
-      cd "qBittorrent-release-${src_version}"
-      mv * $CRAFT_PART_SRC
-      cd ..
-      rm "release-${src_version}.tar.gz"
-      rm -r "qBittorrent-release-${src_version}"
+      rm -rf $CRAFT_PART_SRC/{,.[!.],..?}*
+      git clone -b release-${src_version} --depth=1 https://github.com/qbittorrent/qBittorrent.git .
     source: .
     plugin: cmake
     cmake-generator: Ninja
@@ -92,7 +92,6 @@ parts:
     build-packages:
       - curl
       - git
-      - wget
       - build-essential
       - pkg-config
       - automake
@@ -105,13 +104,9 @@ parts:
       - libboost-chrono-dev
       - libboost-random-dev
       - libtorrent-rasterbar-dev
-      - qt6-base-dev
+      - qt6-base-dev:${CRAFT_ARCH_BUILD_FOR}
       - qt6-base-private-dev
       - qt6-tools-dev
-    override-build: |
-      ls
-      ls $CRAFT_PART_SRC
-      craftctl default
     override-prime: |
       craftctl default
       export XDG_DATA_DIRS=usr/share
