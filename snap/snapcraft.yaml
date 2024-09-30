@@ -57,6 +57,7 @@ parts:
       - libboost-dev
       - libboost-system-dev
       - libboost-tools-dev
+      - libssl-dev
     override-pull: |
       craftctl default
 
