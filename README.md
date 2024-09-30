@@ -19,7 +19,7 @@ Service is restarted on any condition.
 
 Post install commands required to access media folders and see default password :
 ```
-sudo snap connect sonarr-tak:removable-media
+sudo snap connect qBittorrent-tak:removable-media
 sudo snap logs qbittorrent-tak
 ```
 
