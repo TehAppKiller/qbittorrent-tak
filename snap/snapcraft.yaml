@@ -89,10 +89,10 @@ parts:
       craftctl default
 
       # Get Last Source Tag version
-      src_version=$(git ls-remote --tags --sort='version:refname' git://code.qt.io/qt/qt5.git | grep '\/v[0-9]*\.[0-9]*\.[0-9]*$' | tail -n 1 | sed 's/.*\/v//');
+      src_version=$(git ls-remote --tags --sort='version:refname' https://code.qt.io/qt/qt5.git | grep '\/v[0-9]*\.[0-9]*\.[0-9]*$' | tail -n 1 | sed 's/.*\/v//');
 
       rm -rf $CRAFT_PART_SRC/{,.[!.],..?}*
-      git clone -b v$src_version --depth=1 git://code.qt.io/qt/qt5.git .
+      git clone -b v$src_version --depth=1 https://code.qt.io/qt/qt5.git .
       perl init-repository --module-subset=qtbase,qttools
     prime:
       - usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libQt6Core.so*
