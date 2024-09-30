@@ -89,6 +89,8 @@ parts:
       - curl
       - git
       - perl
+      - libssl-dev
+      - zlib1g-dev
     override-pull: |
       craftctl default
 
@@ -152,6 +154,9 @@ parts:
     build-packages:
       - curl
       - git
+      - libboost-dev
+      - libssl-dev
+      - zlib1g-dev
     override-prime: |
       craftctl default
       chmod +rx $CRAFT_PRIME/bin/run-qbittorrent.sh
