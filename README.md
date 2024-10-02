@@ -1,4 +1,5 @@
 # qbittorrent-tak
+[![qbittorrent-tak](https://snapcraft.io/qbittorrent-tak/badge.svg)](https://snapcraft.io/qbittorrent-tak)
 
 ## Snap Description
 
@@ -34,9 +35,12 @@ vi $SNAP_USER_DATA/.config/qBittorrent/qBittorrent.conf
 One help sheet of Vim commands available [here](https://devhints.io/vim).
 
 ## Building
-The snap works on Core24.\
-It requires to build the mime-type database.\
-It uses QT6 Ubuntu stable packages (instead of default QT5).
+The snap works on Core24.
+### Release with custom build of QT6 and/or LibTorrent (Tags 'Full Build' `fb-x.x`)
+When qBittorrent requires a version of QT and/or LibTorrent not published in Ubuntu repositories, a minimal build of these packages are made.
+### Release with Ubuntu packages (Tags 'With Package' `wp-x.x`)
+Ubuntu packages requires to build the mime-type database.\
+For qBT v4, the build was made with QT6 option and QT6 Ubuntu stable packages (instead of default QT5).
 
 See my common doc about [building a snap](https://github.com/TehAppKiller/Snapcraft-common-doc/tree/main#Building).
 
