@@ -40,6 +40,7 @@ apps:
       - network
       - network-bind
       - removable-media
+      - home
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/plugins
 
@@ -51,6 +52,7 @@ parts:
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
     build-packages:
       - curl
       - git
@@ -67,7 +69,7 @@ parts:
       rm -rf $CRAFT_PART_SRC/{,.[!.],..?}*
       git clone -b v$src_version --depth=1 --recurse-submodules https://github.com/arvidn/libtorrent.git .
     prime:
-      - usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtorrent-rasterbar*
+      - usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libtorrent-rasterbar.so*
 
   qt6:
     after:
@@ -79,12 +81,58 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_LIBRARY_PATH=$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
       - -DINSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - -DINSTALL_INCLUDEDIR=include/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6
-      - -DFEATURE_gui=OFF
-      - -DFEATURE_widgets=OFF
-      - -DFEATURE_dbus=OFF
+      # general
+      - -DQT_DISABLE_DEPRECATED_UP_TO=0x060000
+      - -DQT_BUILD_SUBMODULES="qtbase;qttools"
+      - -DQT_BUILD_SHARED_LIBS=ON
       - -DQT_BUILD_TESTS=OFF
+      - -DQT_BUILD_EXAMPLES=OFF
+      - -DQT_BUILD_TESTS_BY_DEFAULT=OFF
+      - -DQT_BUILD_EXAMPLES_BY_DEFAULT=OFF
+      - -DQT_FEATURE_reduce_exports=ON
+      - -DQT_FEATURE_optimize_full=ON
+      # qtbase
+      - -DQT_FEATURE_network=ON
+      - -DQT_FEATURE_sql=ON
+      - -DQT_FEATURE_xml=ON
+      - -DQT_FEATURE_openssl_linked=ON
+      - -DQT_FEATURE_system_zlib=ON
+      #
+      - -DQT_FEATURE_concurrent=OFF
+      - -DQT_FEATURE_dbus=OFF
+      - -DQT_FEATURE_gui=OFF
+      - -DQT_FEATURE_printsupport=OFF
+      - -DQT_FEATURE_testlib=OFF
+      - -DQT_FEATURE_widgets=OFF
+      #
+      - -DQT_FEATURE_androiddeployqt=OFF
+      - -DQT_FEATURE_animation=OFF
+      # qttools
+      - -DQT_FEATURE_linguist=ON
+      # qtdeclarative
+      - -DQT_FEATURE_mimetype=ON
+      - -DQT_FEATURE_mimetype_database=ON
+      #
+      - -DQT_FEATURE_qml_animation=OFF
+      - -DQT_FEATURE_qml_debug=OFF
+      - -DQT_FEATURE_qml_delegate_model=OFF
+      - -DQT_FEATURE_qml_itemmodel=OFF
+      - -DQT_FEATURE_qml_jit=OFF
+      - -DQT_FEATURE_qml_list_model=OFF
+      - -DQT_FEATURE_qml_locale=OFF
+      - -DQT_FEATURE_qml_network=OFF
+      - -DQT_FEATURE_qml_object_model=OFF
+      - -DQT_FEATURE_qml_preview=OFF
+      - -DQT_FEATURE_qml_profiler=OFF
+      - -DQT_FEATURE_qml_python=ON # Fails to configure if OFF
+      - -DQT_FEATURE_qml_ssl=OFF
+      - -DQT_FEATURE_qml_table_model=OFF
+      - -DQT_FEATURE_qml_worker_script=OFF
+      - -DQT_FEATURE_qml_xml_http_request=OFF
+      - -DQT_FEATURE_qml_xmllistmodel=OFF
     build-packages:
       - curl
       - git
@@ -99,7 +147,7 @@ parts:
 
       rm -rf $CRAFT_PART_SRC/{,.[!.],..?}*
       git clone -b v$src_version --depth=1 https://code.qt.io/qt/qt5.git .
-      perl init-repository --module-subset=qtbase,qttools
+      perl init-repository --module-subset=qtbase,qttools --ignore-submodules
     prime:
       - usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libQt6Core.so*
       - usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libQt6Network.so*
@@ -150,6 +198,7 @@ parts:
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
       - -DGUI=OFF
     build-packages:
       - curl
@@ -166,9 +215,3 @@ parts:
   local:
     plugin: dump
     source: snap/local
-
-#  deps:
-#    plugin: nil
-#    source: .
-#    stage-packages:
-#      - shared-mime-info
