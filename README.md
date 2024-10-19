@@ -2,11 +2,11 @@
 [![qbittorrent-tak](https://snapcraft.io/qbittorrent-tak/badge.svg)](https://snapcraft.io/qbittorrent-tak)
 
 ## Snap Description
-
 UnOfficial release of qBittorrent\
 https://snapcraft.io/qbittorrent-tak
 
 ## qBittorrent Description
+<img src="/icon.svg" width="100">
 qBittorrent is a free and open-source BitTorrent client\
 based on the Qt toolkit and libtorrent-rasterbar library.
 
