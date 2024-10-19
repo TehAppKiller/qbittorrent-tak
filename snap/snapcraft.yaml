@@ -15,18 +15,15 @@ description: |
 
   sudo snap logs qbittorrent-tak
   
-  **Post install commands required to access home folder :**
-  
-  sudo snap connect qbittorrent-tak:home
-  
   **!!! Files can only be written in a directory owned by 'root' !!!**
+  **!!! Home base directory content is not readable !!!**
   
-  This is due to current behavior and restrictions of snaps running as daemon by Canonical.\
-  Check documentation on GitHub: https://github.com/TehAppKiller/qbittorrent-tak
+  This is due to current behavior and restrictions of snaps by Canonical.\
+  Check documentation if you want to setup data in /home directory: https://github.com/TehAppKiller/Snapcraft-common-doc/blob/main/README.md#FAQ
 website: https://www.qbittorrent.org
 source-code: https://github.com/TehAppKiller/qbittorrent-tak
 issues: https://github.com/TehAppKiller/qbittorrent-tak/issues
-contact: tehappkiller@proton.me
+contact: mailto:tehappkiller@proton.me
 donation: https://whydonate.com/en/fundraising/help-teh-devz
 license: MIT
 icon: icon.svg
@@ -51,13 +48,9 @@ apps:
       - network
       - network-bind
       - removable-media
-      - home
+      - home # useless for now ; if snaps are allowed to read /home folder one day...
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/plugins
-      
-plugs:
-  home:
-    read: all
 
 parts:
   libtorrent:
