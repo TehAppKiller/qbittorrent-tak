@@ -1,5 +1,7 @@
 # qbittorrent-tak
 [![qbittorrent-tak](https://snapcraft.io/qbittorrent-tak/badge.svg)](https://snapcraft.io/qbittorrent-tak)
+![snap arch](https://badgen.net/snapcraft/architecture/qbittorrent-tak)
+![snap size](https://badgen.net/snapcraft/size/qbittorrent-tak/amd64/stable)
 
 ## Snap Description
 UnOfficial release of qBittorrent\
