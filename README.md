@@ -9,7 +9,7 @@ https://snapcraft.io/qbittorrent-tak
 
 ## qBittorrent Description
 <img src="/icon.svg" width="100">
-qBittorrent is a free and open-source BitTorrent client\
+qBittorrent is a free and open-source BitTorrent client
 based on the Qt toolkit and libtorrent-rasterbar library.
 
 See https://www.qbittorrent.org for more details.
@@ -26,12 +26,11 @@ sudo snap connect qBittorrent-tak:removable-media
 sudo snap logs qbittorrent-tak
 ```
 
-Post install commands required to access home folder :
-```
-sudo snap connect qbittorrent-tak:home
-```
 **!!! Files can only be written in a directory owned by 'root' !!!**\
-This is due to current behavior and restrictions of snaps running as daemon by Canonical.
+**!!! Home base directory content is not readable !!!**
+
+This is due to current behavior and restrictions of snaps by Canonical.\
+Check common doc in FAQ if you want to setup data in /home directory.
 
 ## FAQ
 See my common doc about [FAQ](https://github.com/TehAppKiller/Snapcraft-common-doc/tree/main#FAQ).
