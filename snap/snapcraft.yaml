@@ -53,10 +53,23 @@ apps:
       - removable-media
       - home # useless for now ; if snaps are allowed to read /home folder one day...
     environment:
+      LD_PRELOAD: $SNAP/lib/semwraplib.so
       QT_PLUGIN_PATH: $SNAP/usr/plugins
 
 parts:
+  semwraplib:
+    plugin: dump
+    source: src
+    override-build: |
+      snapcraftctl build
+      mkdir -p $SNAPCRAFT_PART_INSTALL/lib
+      gcc -g -O0 -Wall -Wstrict-prototypes -fPIC -shared lib.c -o $SNAPCRAFT_PART_INSTALL/lib/semwraplib.so -ldl
+    build-packages:
+      - build-essential
+      
   libtorrent:
+    after:
+      - semwraplib
     source: .
     plugin: cmake
     cmake-generator: Ninja
