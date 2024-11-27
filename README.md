@@ -20,9 +20,10 @@ The web interface is accessible by default at http://localhost:8080
 qBittorrent Release 4+\
 Service is restarted on any condition.
 
-Post install commands required to access media folders and see default password :
+Post install commands required to access media folders, see resources and see default password :
 ```
 sudo snap connect qBittorrent-tak:removable-media
+sudo snap connect qbittorrent-tak:mount-observe
 sudo snap logs qbittorrent-tak
 ```
 
