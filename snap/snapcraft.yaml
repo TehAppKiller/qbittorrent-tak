@@ -12,6 +12,8 @@ description: |
   **Post install commands required to access media folders and see default password :**
 
   sudo snap connect qbittorrent-tak:removable-media
+  
+  sudo snap connect qbittorrent-tak:mount-observe
 
   sudo snap logs qbittorrent-tak
   
@@ -45,6 +47,7 @@ apps:
     daemon: simple
     restart-condition: always
     plugs:
+      - mount-observe
       - network
       - network-bind
       - removable-media
@@ -223,3 +226,9 @@ parts:
   local:
     plugin: dump
     source: snap/local
+
+  deps:
+    plugin: nil
+    source: .
+    stage-packages:
+      - python3
