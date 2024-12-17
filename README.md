@@ -4,8 +4,10 @@
 ![snap size](https://badgen.net/snapcraft/size/qbittorrent-tak/amd64/stable)
 
 ## Snap Description
-UnOfficial release of qBittorrent\
+UnOfficial release of qBittorrent for Server with WebUI only (qBittorrent-nox)\
 https://snapcraft.io/qbittorrent-tak
+
+(For Desktop edition see [qbittorrent-desktop-tak](https://github.com/TehAppKiller/qbittorrent-desktop-tak))
 
 ## qBittorrent Description
 <img src="/icon.svg" width="100">
@@ -17,21 +19,21 @@ See https://www.qbittorrent.org for more details.
 ## Information
 The web interface is accessible by default at http://localhost:8080
 
-qBittorrent Release 4+\
+qBittorrent Release 5+\
 Service is restarted on any condition.
 
-Post install commands required to access media folders, see resources and see default password :
+Post install commands required to access `/media` and `/mnt` folders, see resources and see default password :
 ```
 sudo snap connect qBittorrent-tak:removable-media
 sudo snap connect qbittorrent-tak:mount-observe
 sudo snap logs qbittorrent-tak
 ```
 
-**!!! Files can only be written in a directory owned by 'root' !!!**\
-**!!! Home base directory content is not readable !!!**
+**!!! Files can only be written in a directory owned by `root` !!!**\
+**!!! `/home` base directory content is not readable !!!**
 
 This is due to current behavior and restrictions of snaps by Canonical.\
-Check common doc in FAQ if you want to setup data in /home directory.
+Check common doc in FAQ if you want to setup data in `/home` directory.
 
 ## FAQ
 See my common doc about [FAQ](https://github.com/TehAppKiller/Snapcraft-common-doc/tree/main#FAQ).
