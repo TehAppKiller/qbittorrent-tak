@@ -111,6 +111,8 @@ parts:
       - -DQT_FEATURE_reduce_exports=ON
       - -DQT_FEATURE_optimize_full=ON
       # qtbase
+      - -DQT_GENERATE_SBOM=OFF # 6.8.1 enable SBOM by default but bug https://bugreports.qt.io/browse/QTBUG-132188
+      - -DQT_GENERATE_SOURCE_SBOM=OFF # 6.8.1 enable SBOM by default but bug https://bugreports.qt.io/browse/QTBUG-132188
       - -DQT_FEATURE_network=ON
       - -DQT_FEATURE_sql=ON
       - -DQT_FEATURE_xml=ON
