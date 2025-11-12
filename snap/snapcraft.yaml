@@ -110,6 +110,8 @@ parts:
       - -DQT_BUILD_EXAMPLES_BY_DEFAULT=OFF
       - -DQT_FEATURE_reduce_exports=ON
       - -DQT_FEATURE_optimize_full=ON
+      # Verbose Logs
+      - --log-level=STATUS
       # qtbase
       - -DQT_GENERATE_SBOM=OFF # 6.8.1 enable SBOM by default but bug https://bugreports.qt.io/browse/QTBUG-132188
       - -DQT_GENERATE_SOURCE_SBOM=OFF # 6.8.1 enable SBOM by default but bug https://bugreports.qt.io/browse/QTBUG-132188
@@ -119,7 +121,7 @@ parts:
       - -DQT_FEATURE_openssl_linked=ON
       - -DQT_FEATURE_system_zlib=ON
       #
-      - -DQT_FEATURE_concurrent=OFF
+      - -DQT_FEATURE_concurrent=ON # Required in 6.10 https://patchwork.ozlabs.org/project/buildroot/patch/20250520113339.2525537-12-roykollensvendsen@gmail.com/
       - -DQT_FEATURE_dbus=OFF
       - -DQT_FEATURE_gui=OFF
       - -DQT_FEATURE_printsupport=OFF
