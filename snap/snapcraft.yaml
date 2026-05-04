@@ -1,4 +1,5 @@
 name: qbittorrent-tak
+title: qbittorrent-tak
 summary: UnOfficial release of qBittorrent
 description: |
   **qBittorrent is a free and open-source BitTorrent client** based on the Qt toolkit and libtorrent-rasterbar library.
@@ -51,6 +52,7 @@ apps:
     command: bin/run-qbittorrent.sh
     daemon: simple
     restart-condition: always
+    post-stop-command: bin/stop-qbittorrent-fix.sh
     plugs:
       - mount-observe
       - network
@@ -231,6 +233,7 @@ parts:
     override-prime: |
       craftctl default
       chmod +rx $CRAFT_PRIME/bin/run-qbittorrent.sh
+      chmod +rx $CRAFT_PRIME/bin/stop-qbittorrent-fix.sh
     prime:
       - usr/bin/qbittorrent-nox
 
