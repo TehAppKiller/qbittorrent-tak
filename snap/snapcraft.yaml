@@ -7,7 +7,7 @@ description: |
   * The web interface is accessible by default at http://localhost:8080
   * See https://www.qbittorrent.org for more details.
 
-  **qBittorrent Release 5+**
+  **qBittorrent Release**
   * Service is restarted on any condition.
 
   **Post install commands required to access media folders and see default password :**
@@ -26,13 +26,13 @@ description: |
 website: https://www.qbittorrent.org
 source-code: https://github.com/TehAppKiller/qbittorrent-tak
 issues: https://github.com/TehAppKiller/qbittorrent-tak/issues
-contact: mailto:tehappkiller@proton.me
+contact: ['mailto:tehappkiller@proton.me', 'https://mastodon.social/@TehAppKiller']
 donation: https://whydonate.com/en/fundraising/help-teh-devz
 license: MIT
 icon: icon.svg
 grade: stable
 confinement: strict
-base: core24
+base: core26
 adopt-info: qbittorrent
 platforms:
   amd64:
@@ -99,11 +99,11 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_LIBRARY_PATH=$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+      #- -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON # NOT working with core26
       - -DINSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - -DINSTALL_INCLUDEDIR=include/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6
       # general
-      - -DQT_DISABLE_DEPRECATED_UP_TO=0x060000
+      - -DQT_DISABLE_DEPRECATED_UP_TO=0x060500
       - -DQT_BUILD_SUBMODULES="qtbase;qttools"
       - -DQT_BUILD_SHARED_LIBS=ON
       - -DQT_BUILD_TESTS=OFF
@@ -221,7 +221,7 @@ parts:
     cmake-generator: Ninja
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release 
       - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
       - -DGUI=OFF
     build-packages:
