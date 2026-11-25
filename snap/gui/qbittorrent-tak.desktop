@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=qBittorrent-tak
+Comment=Open webUI
+Type=Application
+Exec=qbittorrent-tak
+Icon=${SNAP}/meta/gui/icon.svg

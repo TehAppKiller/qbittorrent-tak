@@ -61,6 +61,12 @@ apps:
       - home # useless for now ; if snaps are allowed to read /home folder one day...
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/plugins
+      
+  # Snap store "Launch" button Open webservice url in default browser
+  qbittorrent-tak:
+    command: bin/launch-browser.sh
+    plugs:
+      - desktop
 
 parts:
   libtorrent:
@@ -83,6 +89,7 @@ parts:
 
       # Get Last Source Tag version
       src_version=$(git ls-remote --tags --sort='version:refname' https://github.com/arvidn/libtorrent.git | grep '\/v[0-9]*\.[0-9]*\.[0-9]*$' | tail -n 1 | sed 's/.*\/v//');
+      #src_version=$(git ls-remote --tags --sort='version:refname' https://github.com/arvidn/libtorrent.git | grep '\/v2.0.[0-9]*$' | tail -n 1 | sed 's/.*\/v//'); # Temp 2.0.x
 
       rm -rf $CRAFT_PART_SRC/{,.[!.],..?}*
       git clone -b v$src_version --depth=1 --recurse-submodules https://github.com/arvidn/libtorrent.git .
@@ -234,6 +241,7 @@ parts:
       craftctl default
       chmod +rx $CRAFT_PRIME/bin/run-qbittorrent.sh
       chmod +rx $CRAFT_PRIME/bin/stop-qbittorrent-fix.sh
+      chmod +rx $CRAFT_PRIME/bin/launch-browser.sh
     prime:
       - usr/bin/qbittorrent-nox
 
