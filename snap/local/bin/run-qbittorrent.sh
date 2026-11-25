@@ -19,11 +19,13 @@ if [ ! -f $config_file ]; then
     echo "! Configuration file does not exist !"
 else
     # Recover used port
-	port=$(sed -nr '/^\[WebUI\]/,/^\[/ s/^Port=([0-9]+)/\1/p' "$config_file")
+	read_port=$(sed -nr '/^\[WebUI\]/,/^\[/ s/^Port=([0-9]+)/\1/p' "$config_file")
 	
 	# if port is empty, it means default port is used
-	if [[ -z "$port" ]]; then
+	if [[ -z "$read_port" ]]; then
         echo "! No port defined ; using default [$port] port !"
+	else
+	    port=$read_port
     fi
 fi
 
